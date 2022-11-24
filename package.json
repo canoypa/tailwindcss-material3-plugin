@@ -12,7 +12,6 @@
     "url": "https://github.com/canoypa/tailwindcss-material3-plugin/issues"
   },
   "homepage": "https://github.com/canoypa/tailwindcss-material3-plugin#readme",
-  "type": "module",
   "scripts": {
     "build": "rollup --config rollup.config.js"
   },

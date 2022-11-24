@@ -1,10 +1,10 @@
-import commonjs from "@rollup/plugin-commonjs";
-import nodeResolve from "@rollup/plugin-node-resolve";
-import { defineConfig } from "rollup";
-import dts from "rollup-plugin-dts";
-import swc from "rollup-plugin-swc3";
+const commonjs = require("@rollup/plugin-commonjs");
+const nodeResolve = require("@rollup/plugin-node-resolve");
+const { defineConfig } = require("rollup");
+const { default: dts } = require("rollup-plugin-dts");
+const { default: swc } = require("rollup-plugin-swc3");
 
-export default defineConfig([
+module.exports = defineConfig([
   {
     input: "src/index.ts",
     output: [
