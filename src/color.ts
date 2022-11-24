@@ -29,8 +29,7 @@ const paletteColors = (palette: TonalPalette) => {
 };
 
 export const colors = (m3Theme: Theme) => ({
-  light: schemeColors(m3Theme.schemes.light),
-  dark: schemeColors(m3Theme.schemes.dark),
+  ...schemeColors(m3Theme.schemes.dark),
 
   palette: {
     primary: paletteColors(m3Theme.palettes.primary),
