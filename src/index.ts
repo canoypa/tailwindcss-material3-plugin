@@ -7,6 +7,7 @@ import { screens } from "./screens";
 import { boxShadow, boxShadowColor } from "./shadow";
 import { transitionDuration, transitionTimingFunction } from "./transition";
 import { typography } from "./typography";
+import { zIndex } from "./z-index";
 
 export type Material3PluginOptions = {
   sourceColor: number;
@@ -58,6 +59,7 @@ export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
         fontSize: typography,
         transitionDuration: transitionDuration,
         transitionTimingFunction: transitionTimingFunction,
+        zIndex: zIndex,
         extend: {
           opacity: opacity,
           backgroundColor: backgroundColor,
