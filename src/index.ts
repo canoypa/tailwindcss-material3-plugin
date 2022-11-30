@@ -13,7 +13,7 @@ export type Material3PluginOptions = {
   sourceColor: number;
 };
 
-export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
+const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
   (options) =>
     ({ addComponents, theme }) => {
       addComponents({
