@@ -13,7 +13,8 @@
   },
   "homepage": "https://github.com/canoypa/tailwindcss-material3-plugin#readme",
   "scripts": {
-    "build": "rollup --config rollup.config.js"
+    "build": "rollup --config rollup.config.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.0",
