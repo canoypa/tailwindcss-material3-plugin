@@ -5,7 +5,6 @@ import {
   TonalPalette,
 } from "@material/material-color-utilities";
 import kebab from "kebab-case";
-import { ThemeConfig } from "tailwindcss/types/config";
 
 const schemeColors = (scheme: Scheme) => {
   const schemeJson = scheme.toJSON();
@@ -39,12 +38,4 @@ export const colors = (m3Theme: Theme) => ({
     "neutral-variant": paletteColors(m3Theme.palettes.neutralVariant),
     error: paletteColors(m3Theme.palettes.error),
   },
-});
-
-export const backgroundColor: ThemeConfig["backgroundColor"] = ({ theme }) => ({
-  "surface-1": theme("colors.primary / 5%"),
-  "surface-2": theme("colors.primary / 8%"),
-  "surface-3": theme("colors.primary / 11%"),
-  "surface-4": theme("colors.primary / 12%"),
-  "surface-5": theme("colors.primary / 14%"),
 });
