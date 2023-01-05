@@ -11,5 +11,8 @@ export const borderRadius = {
 };
 
 export const borderColor: ThemeConfig["borderColor"] = ({ theme }) => ({
-  DEFAULT: theme("colors.outline"),
+  DEFAULT: theme("colors.light.outline"),
+
+  light: theme("colors.light.outline"),
+  dark: theme("colors.dark.outline"),
 });

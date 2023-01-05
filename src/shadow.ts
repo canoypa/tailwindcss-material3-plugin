@@ -10,5 +10,8 @@ export const boxShadow = {
 };
 
 export const boxShadowColor: ThemeConfig["boxShadowColor"] = ({ theme }) => ({
-  DEFAULT: theme("colors.shadow"),
+  DEFAULT: theme("colors.light.shadow"),
+
+  light: theme("colors.light.shadow"),
+  dark: theme("colors.dark.shadow"),
 });
