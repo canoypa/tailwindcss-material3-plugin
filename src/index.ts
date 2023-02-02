@@ -1,4 +1,7 @@
-import { themeFromSourceColor } from "@material/material-color-utilities";
+import {
+  CustomColor,
+  themeFromSourceColor,
+} from "@material/material-color-utilities";
 import plugin from "tailwindcss/plugin";
 import { borderColor, borderRadius } from "./border";
 import { colors } from "./color";
@@ -11,6 +14,7 @@ import { zIndex } from "./z-index";
 
 export type Material3PluginOptions = {
   sourceColor: number;
+  customColors: CustomColor[];
 };
 
 export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
@@ -23,7 +27,10 @@ export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
       throw new Error("Invalid source color.");
     }
 
-    const m3Theme = themeFromSourceColor(options.sourceColor);
+    const m3Theme = themeFromSourceColor(
+      options.sourceColor,
+      options.customColors
+    );
 
     return {
       theme: {

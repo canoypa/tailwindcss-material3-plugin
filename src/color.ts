@@ -1,4 +1,5 @@
 import {
+  CorePalette,
   hexFromArgb,
   Scheme,
   Theme,
@@ -27,16 +28,58 @@ const paletteColors = (palette: TonalPalette) => {
   return toObject;
 };
 
-export const colors = (m3Theme: Theme) => ({
-  light: schemeColors(m3Theme.schemes.light),
-  dark: schemeColors(m3Theme.schemes.dark),
+type CustomColors = {
+  light: Record<string, string>;
+  dark: Record<string, string>;
+  palette: Record<string, Record<number, string>>;
+};
+export const colors = (m3Theme: Theme) => {
+  const customColors = m3Theme.customColors.reduce<CustomColors>(
+    (p, c) => {
+      const tones = CorePalette.of(c.value).a1;
 
-  palette: {
-    primary: paletteColors(m3Theme.palettes.primary),
-    secondary: paletteColors(m3Theme.palettes.secondary),
-    tertiary: paletteColors(m3Theme.palettes.tertiary),
-    neutral: paletteColors(m3Theme.palettes.neutral),
-    "neutral-variant": paletteColors(m3Theme.palettes.neutralVariant),
-    error: paletteColors(m3Theme.palettes.error),
-  },
-});
+      return {
+        light: {
+          ...p.light,
+          [c.color.name]: hexFromArgb(tones.tone(40)),
+          [`on-${c.color.name}`]: hexFromArgb(tones.tone(100)),
+          [`${c.color.name}-container`]: hexFromArgb(tones.tone(90)),
+          [`on-${c.color.name}-container`]: hexFromArgb(tones.tone(10)),
+        },
+        dark: {
+          ...p.dark,
+          [c.color.name]: hexFromArgb(tones.tone(80)),
+          [`on-${c.color.name}`]: hexFromArgb(tones.tone(20)),
+          [`${c.color.name}-container`]: hexFromArgb(tones.tone(30)),
+          [`on-${c.color.name}-container`]: hexFromArgb(tones.tone(90)),
+        },
+        palette: {
+          ...p.palette,
+          ...paletteColors(tones),
+        },
+      };
+    },
+    { light: {}, dark: {}, palette: {} }
+  );
+
+  return {
+    light: {
+      ...schemeColors(m3Theme.schemes.light),
+      ...customColors.light,
+    },
+    dark: {
+      ...schemeColors(m3Theme.schemes.dark),
+      ...customColors.dark,
+    },
+
+    palette: {
+      primary: paletteColors(m3Theme.palettes.primary),
+      secondary: paletteColors(m3Theme.palettes.secondary),
+      tertiary: paletteColors(m3Theme.palettes.tertiary),
+      neutral: paletteColors(m3Theme.palettes.neutral),
+      "neutral-variant": paletteColors(m3Theme.palettes.neutralVariant),
+      error: paletteColors(m3Theme.palettes.error),
+      ...customColors.palette,
+    },
+  };
+};
