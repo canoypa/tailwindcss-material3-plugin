@@ -17,37 +17,33 @@ export type Material3PluginOptions = {
   customColors: CustomColor[];
 };
 
-export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
-  (options) =>
-    ({ addComponents, theme }) => {},
-  (options) => {
-    const source = options.sourceColor;
+export const Material3Plugin = (options: Material3PluginOptions) => {
+  const source = options.sourceColor;
 
-    if (typeof source !== "number" && source > 0xffffff) {
-      throw new Error("Invalid source color.");
-    }
-
-    const m3Theme = themeFromSourceColor(
-      options.sourceColor,
-      options.customColors
-    );
-
-    return {
-      theme: {
-        screens: screens,
-        borderRadius: borderRadius,
-        borderColor: borderColor,
-        boxShadow: boxShadow,
-        boxShadowColor: boxShadowColor,
-        fontSize: typography,
-        transitionDuration: transitionDuration,
-        transitionTimingFunction: transitionTimingFunction,
-        zIndex: zIndex,
-        extend: {
-          opacity: opacity,
-          colors: colors(m3Theme),
-        },
-      },
-    };
+  if (typeof source !== "number" && source > 0xffffff) {
+    throw new Error("Invalid source color.");
   }
-);
+
+  const m3Theme = themeFromSourceColor(
+    options.sourceColor,
+    options.customColors
+  );
+
+  return plugin(({}) => {}, {
+    theme: {
+      screens: screens,
+      borderRadius: borderRadius,
+      borderColor: borderColor,
+      boxShadow: boxShadow,
+      boxShadowColor: boxShadowColor,
+      fontSize: typography,
+      transitionDuration: transitionDuration,
+      transitionTimingFunction: transitionTimingFunction,
+      zIndex: zIndex,
+      extend: {
+        opacity: opacity,
+        colors: colors(m3Theme),
+      },
+    },
+  });
+};
