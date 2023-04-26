@@ -19,7 +19,7 @@ export const Material3Plugin = ({
   sourceColor,
   customColors,
 }: Material3PluginOptions) => {
-  if (typeof sourceColor !== "number" && sourceColor > 0xffffff) {
+  if (typeof sourceColor !== "number" || sourceColor > 0xffffff) {
     throw new Error("Invalid source color.");
   }
 
