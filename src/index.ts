@@ -1,10 +1,8 @@
-import {
-  CustomColor,
-  themeFromSourceColor,
-} from "@material/material-color-utilities";
+import { CustomColor } from "@material/material-color-utilities";
 import plugin from "tailwindcss/plugin";
 import { borderColor, borderRadius } from "./border";
 import { colors } from "./color";
+import { createTheme } from "./create_theme";
 import { opacity } from "./opacity";
 import { screens } from "./screens";
 import { boxShadow, boxShadowColor } from "./shadow";
@@ -17,17 +15,15 @@ export type Material3PluginOptions = {
   customColors: CustomColor[];
 };
 
-export const Material3Plugin = (options: Material3PluginOptions) => {
-  const source = options.sourceColor;
-
-  if (typeof source !== "number" && source > 0xffffff) {
+export const Material3Plugin = ({
+  sourceColor,
+  customColors,
+}: Material3PluginOptions) => {
+  if (typeof sourceColor !== "number" && sourceColor > 0xffffff) {
     throw new Error("Invalid source color.");
   }
 
-  const m3Theme = themeFromSourceColor(
-    options.sourceColor,
-    options.customColors
-  );
+  const m3Theme = createTheme({ sourceColor, customColors });
 
   return plugin(({}) => {}, {
     theme: {
