@@ -35,7 +35,6 @@ export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
     return {
       theme: {
         screens: screens,
-        colors: colors(m3Theme),
         borderRadius: borderRadius,
         borderColor: borderColor,
         boxShadow: boxShadow,
@@ -46,6 +45,7 @@ export const Material3Plugin = plugin.withOptions<Material3PluginOptions>(
         zIndex: zIndex,
         extend: {
           opacity: opacity,
+          colors: colors(m3Theme),
         },
       },
     };
