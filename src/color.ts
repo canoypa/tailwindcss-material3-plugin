@@ -1,6 +1,6 @@
 import { hexFromArgb, TonalPalette } from "@material/material-color-utilities";
-import kebab from "kebab-case";
 import { Theme } from "./create_theme";
+import { kebab } from "./kebab_case";
 
 const schemeColors = (scheme: Record<string, number>) => {
   const result: Record<string, string> = {};
