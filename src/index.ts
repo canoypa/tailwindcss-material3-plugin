@@ -10,15 +10,12 @@ import { transitionDuration, transitionTimingFunction } from "./transition";
 import { typography } from "./typography";
 import { zIndex } from "./z-index";
 
-export type Material3PluginOptions = {
+export type Options = {
   sourceColor: number;
   customColors: CustomColor[];
 };
 
-export const Material3Plugin = ({
-  sourceColor,
-  customColors,
-}: Material3PluginOptions) => {
+export const material3 = ({ sourceColor, customColors }: Options) => {
   if (typeof sourceColor !== "number" || sourceColor > 0xffffff) {
     throw new Error("Invalid source color.");
   }

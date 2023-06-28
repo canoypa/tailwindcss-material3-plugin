@@ -3,7 +3,7 @@ import {
   TonalPalette,
   themeFromSourceColor,
 } from "@material/material-color-utilities";
-import { Material3PluginOptions } from ".";
+import { Options } from ".";
 
 export interface Theme {
   schemes: {
@@ -13,10 +13,7 @@ export interface Theme {
   palettes: Record<string, TonalPalette>;
 }
 
-export function createTheme({
-  sourceColor,
-  customColors,
-}: Material3PluginOptions): Theme {
+export function createTheme({ sourceColor, customColors }: Options): Theme {
   const theme = themeFromSourceColor(sourceColor, customColors);
 
   const schemeLight: Record<string, number> = theme.schemes.light.toJSON();
