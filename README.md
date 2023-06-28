@@ -3,15 +3,19 @@
 ## Usage
 
 ```javascript
-const m3Plugin = require("tailwindcss-material3-plugin")({
-  sourceColor: 0x8282f4,
-});
+// tailwind.config.js
+import { material3 } from "tailwindcss-material3-plugin";
 
-module.exports = {
-  plugins: [m3Plugin],
+export default {
+  plugins: [
+    material3({
+      sourceColor: 0x8282f4,
+      customColors: [{ name: "info", value: 0x42a5f5, blend: true }],
+    }),
+  ],
 };
 ```
 
 ```html
-<div class="color-primary text-body-medium">Hello World!</div>
+<div class="text-body-medium color-primary">Hello World!</div>
 ```
