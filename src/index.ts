@@ -1,26 +1,26 @@
-import { CustomColor } from "@material/material-color-utilities";
-import plugin from "tailwindcss/plugin";
-import { borderColor, borderRadius } from "./border";
-import { colors } from "./color";
-import { createTheme } from "./create_theme";
-import { opacity } from "./opacity";
-import { screens } from "./screens";
-import { boxShadow, boxShadowColor } from "./shadow";
-import { transitionDuration, transitionTimingFunction } from "./transition";
-import { typography } from "./typography";
-import { zIndex } from "./z-index";
+import { CustomColor } from '@material/material-color-utilities'
+import plugin from 'tailwindcss/plugin'
+import { borderColor, borderRadius } from './border'
+import { colors } from './color'
+import { createTheme } from './create_theme'
+import { opacity } from './opacity'
+import { screens } from './screens'
+import { boxShadow, boxShadowColor } from './shadow'
+import { transitionDuration, transitionTimingFunction } from './transition'
+import { typography } from './typography'
+import { zIndex } from './z-index'
 
 export type Options = {
-  sourceColor: number;
-  customColors: CustomColor[];
-};
+  sourceColor: number
+  customColors: CustomColor[]
+}
 
 export const material3 = ({ sourceColor, customColors }: Options) => {
-  if (typeof sourceColor !== "number" || sourceColor > 0xffffff) {
-    throw new Error("Invalid source color.");
+  if (typeof sourceColor !== 'number' || sourceColor > 0xffffff) {
+    throw new Error('Invalid source color.')
   }
 
-  const m3Theme = createTheme({ sourceColor, customColors });
+  const m3Theme = createTheme({ sourceColor, customColors })
 
   return plugin(({}) => {}, {
     theme: {
@@ -38,5 +38,5 @@ export const material3 = ({ sourceColor, customColors }: Options) => {
         colors: colors(m3Theme),
       },
     },
-  });
-};
+  })
+}
