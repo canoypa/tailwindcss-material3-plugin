@@ -1,4 +1,4 @@
-import { ThemeConfig } from 'tailwindcss/types/config'
+import type { ThemeConfig } from 'tailwindcss/plugin'
 
 export const boxShadow = {
   0: 'none',

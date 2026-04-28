@@ -1,4 +1,4 @@
-import type { ThemeConfig } from 'tailwindcss/types/config'
+import type { ThemeConfig } from 'tailwindcss/plugin'
 
 export const borderRadius = {
   none: '0',

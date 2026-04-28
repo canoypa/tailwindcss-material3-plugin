@@ -19,7 +19,7 @@ export function createTheme({ sourceColor, customColors }: Options): Theme {
   const schemeLight: Record<string, number> = theme.schemes.light.toJSON()
   const schemeDark: Record<string, number> = theme.schemes.dark.toJSON()
 
-  const palettes: Record<string, TonalPalette> = theme.palettes
+  const palettes: Record<string, TonalPalette> = { ...theme.palettes }
 
   theme.customColors.forEach((c) => {
     schemeLight[c.color.name] = c.light.color

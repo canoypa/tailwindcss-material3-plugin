@@ -1,7 +1,7 @@
 import { CustomColor } from '@material/material-color-utilities'
-import plugin from 'tailwindcss/plugin'
+import plugin, { type Config, type PluginCreator } from 'tailwindcss/plugin'
 import { borderColor, borderRadius } from './border'
-import { colors } from './color'
+import { colors, cssVariables } from './color'
 import { createTheme } from './create_theme'
 import { opacity } from './opacity'
 import { screens } from './screens'
@@ -15,14 +15,22 @@ export type Options = {
   customColors: CustomColor[]
 }
 
-export const material3 = ({ sourceColor, customColors }: Options) => {
+export const material3 = ({ sourceColor, customColors }: Options): { handler: PluginCreator; config?: Partial<Config> } => {
   if (typeof sourceColor !== 'number' || sourceColor > 0xffffff) {
     throw new Error('Invalid source color.')
   }
 
   const m3Theme = createTheme({ sourceColor, customColors })
+  const { light, dark, ref } = cssVariables(m3Theme)
 
-  return plugin(({}) => {}, {
+  return plugin(({ addBase }) => {
+    addBase({
+      ':root': { ...ref, ...light },
+      '@media (prefers-color-scheme: dark)': {
+        ':root': dark,
+      },
+    })
+  }, {
     theme: {
       screens: screens,
       borderRadius: borderRadius,
