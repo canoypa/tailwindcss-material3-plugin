@@ -1,6 +1,6 @@
 # Tailwindcss Material3 Plugin
 
-Material Design 3 tokens for Tailwind CSS v4, with colors generated from a source color by [Material Color Utilities](https://github.com/material-foundation/material-color-utilities) (2025 color spec).
+Material Design 3 tokens for Tailwind CSS v4, with colors generated from a source color by [Material Color Utilities](https://github.com/material-foundation/material-color-utilities).
 
 ## Usage
 
@@ -69,8 +69,8 @@ A specific mode can be used with `md-light-` / `md-dark-`, e.g. `bg-md-dark-surf
 | Option           | Default        | Description |
 | ---------------- | -------------- | ----------- |
 | `sourceColor`    | (required)     | Source color as an RGB number. |
-| `customColors`   | `[]`           | Extra color roles. `blend: true` harmonizes the color with `sourceColor`; `fidelity: true` makes the container tone match the input color. |
-| `variant`        | `"tonal-spot"` | Dynamic color scheme: `"tonal-spot"`, `"vibrant"`, `"expressive"` or `"neutral"`. |
+| `customColors`   | `[]`           | Extra color roles (static colors in Material Design 3). `blend: true` harmonizes the color with `sourceColor`. Color fidelity is on by default, so the container tone matches the input color; `fidelity: false` gives tones that follow `variant` instead. |
+| `variant`        | `"fidelity"`   | How the scheme is generated from `sourceColor`. `"fidelity"` matches the scheme to a hand-picked source color, which is the Material default for a custom scheme. `"content"` is for a source color taken from an image. `"tonal-spot"`, `"vibrant"`, `"expressive"` and `"neutral"` are the Android wallpaper variants. |
 | `contrastLevel`  | `0`            | `-1` (reduced) to `1` (high). `0.5` is medium contrast. |
 | `motionScheme`   | `"standard"`   | Spring motion scheme: `"standard"` or `"expressive"`. |
 | `languageHeight` | `"medium"`     | Line heights for the script: `"small"` (Latin, Cyrillic, Greek, Hebrew), `"medium"` (CJK, Arabic, Thai and most other scripts), `"large"` (Burmese, Telugu) or `"extra-large"` (Nastaliq). |
@@ -124,7 +124,7 @@ Breakpoints are the Material window size classes: `md-medium:` (600px), `md-expa
 - **Back to Tailwind's values without an error:** `z-1`–`z-5` and `opacity-1`–`opacity-5` no longer come from the plugin, so they are Tailwind's plain numbers (`z-3` is 3 instead of 6, `opacity-1` is 1% instead of 5%).
 - **Removed:** the `shadow-light` / `shadow-dark` colors and the default border color (both had no effect in Tailwind v4), and palette tones 25 / 35.
 - **Changed values:**
-  - Colors follow the 2025 color spec. Palettes are generated per mode, so `md-light-primary40` and `md-dark-primary40` can differ.
+  - Colors are generated with a newer Material Color Utilities algorithm, so they differ slightly from 0.3 (for `0x648d24`, light primary `#446900` → `#426600`). Palettes are generated per mode, so with the Android wallpaper variants `md-light-primary40` and `md-dark-primary40` can differ.
   - Custom colors are built from their input color with contrast against the main scheme's surfaces.
   - Focus and pressed state layer opacity is 0.1 (was 0.12).
   - Type scale sizes are in rem and letter spacing in em. Line heights default to the `medium` language height (e.g. body-medium 23px instead of 20px); use `languageHeight: "small"` for the previous line heights.

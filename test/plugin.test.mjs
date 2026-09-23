@@ -45,7 +45,7 @@ test('output', async (t) => {
     customColors: [
       { name: 'info', value: 0x42a5f5, blend: true },
       { name: 'warning', value: 0xffee58 },
-      { name: 'success', value: 0x66bb6a, fidelity: true },
+      { name: 'success', value: 0x66bb6a, fidelity: false },
     ],
   })
   const candidates = candidatesOf(plugin)
@@ -92,7 +92,7 @@ test('dark colors follow the dark variant through @config', async (t) => {
 })
 
 test('dark mode redefines only the colors that change', async (t) => {
-  for (const variant of ['tonal-spot', 'vibrant', 'expressive', 'neutral']) {
+  for (const variant of ['tonal-spot', 'vibrant', 'expressive', 'neutral', 'fidelity', 'content']) {
     const plugin = material3({ sourceColor, variant, customColors: [{ name: 'info', value: 0x42a5f5 }] })
     const { light, dark } = plugin.config.theme.extend.colors.md
     const changed = Object.keys(light).filter((key) => light[key] !== dark[key])
@@ -117,7 +117,7 @@ test('invalid input', (t) => {
     { customColors: [{ name: 'dark', value: 0x000000 }] },
     { customColors: [{ name: 'DEFAULT', value: 0xff0000 }] },
     { customColors: [{ name: 'a}b', value: 0xff0000 }] },
-    { variant: 'fidelity' },
+    { variant: 'monochrome' },
     { motionScheme: 'fast' },
     { languageHeight: 'extraLarge' },
   ]
