@@ -31,20 +31,18 @@
     "format": "prettier --write src",
     "prepublishOnly": "pnpm build"
   },
-  "dependencies": {
-    "@material/material-color-utilities": "^0.4.0"
-  },
   "peerDependencies": {
     "tailwindcss": "^4"
   },
   "devDependencies": {
+    "@material/material-color-utilities": "^0.4.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "prettier": "^3.0.0",
     "rollup": "^4.0.0",
     "rollup-plugin-dts": "^6.0.0",
     "rollup-plugin-swc3": "^0.12.0",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^6.0.0"
   }
 }
