@@ -1,12 +1,7 @@
 export const opacity = {
-  hover: '0.08',
-  focus: '0.12',
-  pressed: '0.12',
-  dragged: '0.16',
-
-  1: '0.05',
-  2: '0.08',
-  3: '0.11',
-  4: '0.12',
-  5: '0.14',
+  'md-hover': '0.08',
+  'md-focus': '0.1',
+  'md-pressed': '0.1',
+  'md-dragged': '0.16',
+  'md-disabled': '0.38',
 }

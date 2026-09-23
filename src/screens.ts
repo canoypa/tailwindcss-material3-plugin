@@ -1,6 +1,8 @@
+// rem, not px: Tailwind sorts breakpoints by value only when they share a unit
+// with its defaults.
 export const screens = {
-  sm: '600px',
-  md: '905px',
-  lg: '1240px',
-  xl: '1440px',
+  'md-medium': '37.5rem',
+  'md-expanded': '52.5rem',
+  'md-large': '75rem',
+  'md-extra-large': '100rem',
 }

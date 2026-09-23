@@ -1,25 +1,21 @@
-import type { ThemeConfig } from 'tailwindcss/plugin'
-
 export const borderRadius = {
-  none: '0',
-  'extra-small': '4px',
-  small: '8px',
-  medium: '12px',
-  large: '16px',
-  'extra-large': '28px',
-  full: '9999px',
+  'md-none': '0px',
+  'md-extra-small': '4px',
+  'md-small': '8px',
+  'md-medium': '12px',
+  'md-large': '16px',
+  'md-large-increased': '20px',
+  'md-extra-large': '28px',
+  'md-extra-large-increased': '32px',
+  'md-extra-extra-large': '48px',
+  'md-full': '9999px',
 }
 
-export const borderColor: ThemeConfig['borderColor'] = ({ theme }) => ({
-  ...theme('colors'),
-  DEFAULT: theme('colors.light.outline'),
+export const outlineWidth = {
+  'md-focus-indicator-thickness': '3px',
+}
 
-  light: {
-    ...theme('colors.light'),
-    DEFAULT: theme('colors.light.outline'),
-  },
-  dark: {
-    ...theme('colors.dark'),
-    DEFAULT: theme('colors.dark.outline'),
-  },
-})
+export const outlineOffset = {
+  'md-focus-indicator-inner-offset': '-3px',
+  'md-focus-indicator-outer-offset': '2px',
+}
