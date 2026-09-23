@@ -29,6 +29,8 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "format": "prettier --write src",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm build && node --test \"test/*.test.mjs\"",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
