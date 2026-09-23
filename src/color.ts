@@ -1,56 +1,270 @@
-import { hexFromArgb, TonalPalette } from '@material/material-color-utilities'
-import { Theme } from './create_theme'
-import { kebab } from './kebab_case'
+import {
+  Blend,
+  DynamicColor,
+  DynamicScheme,
+  Hct,
+  SchemeContent,
+  SchemeExpressive,
+  SchemeFidelity,
+  SchemeNeutral,
+  SchemeTonalSpot,
+  SchemeVibrant,
+  TonalPalette,
+  Variant,
+  hexFromArgb,
+} from '@material/material-color-utilities'
 
-const schemeColors = (scheme: Record<string, number>) => {
+export type CustomColor = {
+  name: string
+  value: number
+  blend?: boolean
+  fidelity?: boolean
+}
+
+export type SchemeVariant =
+  | 'tonal-spot'
+  | 'vibrant'
+  | 'expressive'
+  | 'neutral'
+  | 'fidelity'
+  | 'content'
+
+export type ColorOptions = {
+  sourceColor: number
+  customColors?: CustomColor[]
+  variant?: SchemeVariant
+  contrastLevel?: number
+}
+
+const schemeClasses = {
+  'tonal-spot': SchemeTonalSpot,
+  vibrant: SchemeVibrant,
+  expressive: SchemeExpressive,
+  neutral: SchemeNeutral,
+  fidelity: SchemeFidelity,
+  content: SchemeContent,
+} satisfies Record<SchemeVariant, unknown>
+
+type ModeColors = {
+  // md.sys.color.*
+  roles: Record<string, string>
+  // md.ref.palette.*
+  palettes: Record<string, string>
+}
+
+const tones = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98, 99, 100]
+// Only the neutral palette has these extra tones in md.ref.palette.
+const neutralTones = [...tones, 4, 6, 12, 17, 22, 24, 87, 92, 94, 96].sort(
+  (a, b) => a - b,
+)
+
+function colorOf(scheme: DynamicScheme) {
+  return (color: DynamicColor) => hexFromArgb(color.getArgb(scheme))
+}
+
+function paletteColors(
+  name: string,
+  palette: TonalPalette,
+  paletteTones = tones,
+) {
   const result: Record<string, string> = {}
-
-  for (const key in scheme) {
-    result[kebab(key)] = hexFromArgb(scheme[key])
+  for (const tone of paletteTones) {
+    result[`${name}${tone}`] = hexFromArgb(palette.tone(tone))
   }
-
   return result
 }
 
-const tones = [0, 10, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 95, 98, 99, 100]
-const paletteColors = (palette: Record<string, TonalPalette>) => {
-  const result: Record<string, string> = {}
+function schemeColors(scheme: DynamicScheme): ModeColors {
+  const mdc = scheme.colors
+  const c = colorOf(scheme)
 
-  for (const key in palette) {
-    tones.forEach((tone) => {
-      result[`${key}-${tone}`] = hexFromArgb(palette[key].tone(tone))
-    })
-  }
-
-  return result
-}
-
-export const colors = (m3Theme: Theme) => {
   return {
-    light: schemeColors(m3Theme.schemes.light),
-    dark: schemeColors(m3Theme.schemes.dark),
-    ...paletteColors(m3Theme.palettes),
+    // prettier-ignore
+    roles: {
+      'background':                 c(mdc.background()),
+      'on-background':              c(mdc.onBackground()),
+      'surface':                    c(mdc.surface()),
+      'surface-dim':                c(mdc.surfaceDim()),
+      'surface-bright':             c(mdc.surfaceBright()),
+      'surface-container-lowest':   c(mdc.surfaceContainerLowest()),
+      'surface-container-low':      c(mdc.surfaceContainerLow()),
+      'surface-container':          c(mdc.surfaceContainer()),
+      'surface-container-high':     c(mdc.surfaceContainerHigh()),
+      'surface-container-highest':  c(mdc.surfaceContainerHighest()),
+      'on-surface':                 c(mdc.onSurface()),
+      'surface-variant':            c(mdc.surfaceVariant()),
+      'on-surface-variant':         c(mdc.onSurfaceVariant()),
+      'outline':                    c(mdc.outline()),
+      'outline-variant':            c(mdc.outlineVariant()),
+      'inverse-surface':            c(mdc.inverseSurface()),
+      'inverse-on-surface':         c(mdc.inverseOnSurface()),
+      'shadow':                     c(mdc.shadow()),
+      'scrim':                      c(mdc.scrim()),
+      'surface-tint':               c(mdc.surfaceTint()),
+      'primary':                    c(mdc.primary()),
+      'on-primary':                 c(mdc.onPrimary()),
+      'primary-container':          c(mdc.primaryContainer()),
+      'on-primary-container':       c(mdc.onPrimaryContainer()),
+      'inverse-primary':            c(mdc.inversePrimary()),
+      'primary-fixed':              c(mdc.primaryFixed()),
+      'primary-fixed-dim':          c(mdc.primaryFixedDim()),
+      'on-primary-fixed':           c(mdc.onPrimaryFixed()),
+      'on-primary-fixed-variant':   c(mdc.onPrimaryFixedVariant()),
+      'secondary':                  c(mdc.secondary()),
+      'on-secondary':               c(mdc.onSecondary()),
+      'secondary-container':        c(mdc.secondaryContainer()),
+      'on-secondary-container':     c(mdc.onSecondaryContainer()),
+      'secondary-fixed':            c(mdc.secondaryFixed()),
+      'secondary-fixed-dim':        c(mdc.secondaryFixedDim()),
+      'on-secondary-fixed':         c(mdc.onSecondaryFixed()),
+      'on-secondary-fixed-variant': c(mdc.onSecondaryFixedVariant()),
+      'tertiary':                   c(mdc.tertiary()),
+      'on-tertiary':                c(mdc.onTertiary()),
+      'tertiary-container':         c(mdc.tertiaryContainer()),
+      'on-tertiary-container':      c(mdc.onTertiaryContainer()),
+      'tertiary-fixed':             c(mdc.tertiaryFixed()),
+      'tertiary-fixed-dim':         c(mdc.tertiaryFixedDim()),
+      'on-tertiary-fixed':          c(mdc.onTertiaryFixed()),
+      'on-tertiary-fixed-variant':  c(mdc.onTertiaryFixedVariant()),
+      'error':                      c(mdc.error()),
+      'on-error':                   c(mdc.onError()),
+      'error-container':            c(mdc.errorContainer()),
+      'on-error-container':         c(mdc.onErrorContainer()),
+    },
+    palettes: {
+      ...paletteColors('primary', scheme.primaryPalette),
+      ...paletteColors('secondary', scheme.secondaryPalette),
+      ...paletteColors('tertiary', scheme.tertiaryPalette),
+      ...paletteColors('neutral', scheme.neutralPalette, neutralTones),
+      ...paletteColors('neutral-variant', scheme.neutralVariantPalette),
+      ...paletteColors('error', scheme.errorPalette),
+    },
   }
 }
 
-export const cssVariables = (m3Theme: Theme) => {
-  const light: Record<string, string> = {}
-  const dark: Record<string, string> = {}
-  const ref: Record<string, string> = {}
+function customColors(name: string, scheme: DynamicScheme): ModeColors {
+  const mdc = scheme.colors
+  const c = colorOf(scheme)
 
-  for (const key in m3Theme.schemes.light) {
-    light[`--md-sys-color-${kebab(key)}`] = hexFromArgb(m3Theme.schemes.light[key])
+  return {
+    roles: {
+      [name]: c(mdc.primary()),
+      [`on-${name}`]: c(mdc.onPrimary()),
+      [`${name}-container`]: c(mdc.primaryContainer()),
+      [`on-${name}-container`]: c(mdc.onPrimaryContainer()),
+    },
+    palettes: paletteColors(name, scheme.primaryPalette),
+  }
+}
+
+function makeScheme(
+  { variant = 'fidelity', contrastLevel = 0 }: ColorOptions,
+  color: number,
+  isDark: boolean,
+): DynamicScheme {
+  if (!Object.hasOwn(schemeClasses, variant)) {
+    throw new Error(
+      `Unknown variant "${variant}". Expected one of: ${Object.keys(schemeClasses).join(', ')}.`,
+    )
+  }
+  const Scheme = schemeClasses[variant]
+  return new Scheme(Hct.fromInt(color), isDark, contrastLevel, '2025', 'phone')
+}
+
+function makeCustomScheme(
+  main: DynamicScheme,
+  color: number,
+  fidelity: boolean,
+): DynamicScheme {
+  return new DynamicScheme({
+    sourceColorHct: Hct.fromInt(color),
+    variant: fidelity ? Variant.FIDELITY : main.variant,
+    contrastLevel: main.contrastLevel,
+    isDark: main.isDark,
+    platform: 'phone',
+    specVersion: '2025',
+    ...(!fidelity && { primaryPalette: TonalPalette.fromInt(color) }),
+    // Role tones are contrasted against surfaces from these palettes, so they must
+    // be the main scheme's, not ones derived from the custom color.
+    neutralPalette: main.neutralPalette,
+    neutralVariantPalette: main.neutralVariantPalette,
+  })
+}
+
+function makeModeColors(options: ColorOptions, isDark: boolean): ModeColors {
+  const main = makeScheme(options, options.sourceColor, isDark)
+  const result = schemeColors(main)
+
+  for (const custom of options.customColors ?? []) {
+    if (!/^[A-Za-z][\w-]*$/.test(custom.name)) {
+      throw new Error(
+        `Custom color name "${custom.name}" must start with a letter and contain only letters, digits, "_" and "-".`,
+      )
+    }
+    const value = custom.blend
+      ? Blend.harmonize(custom.value, options.sourceColor)
+      : custom.value
+    const colors = customColors(
+      custom.name,
+      makeCustomScheme(main, value, custom.fidelity ?? true),
+    )
+    for (const key in { ...colors.roles, ...colors.palettes }) {
+      if (key in result.roles || key in result.palettes) {
+        throw new Error(
+          `Custom color "${custom.name}" produces "${key}", which already exists.`,
+        )
+      }
+    }
+    Object.assign(result.roles, colors.roles)
+    Object.assign(result.palettes, colors.palettes)
   }
 
-  for (const key in m3Theme.schemes.dark) {
-    dark[`--md-sys-color-${kebab(key)}`] = hexFromArgb(m3Theme.schemes.dark[key])
+  return result
+}
+
+export function makeColors(options: ColorOptions) {
+  const light = makeModeColors(options, false)
+  const dark = makeModeColors(options, true)
+
+  const lightColors = { ...light.roles, ...light.palettes }
+  const darkColors = { ...dark.roles, ...dark.palettes }
+
+  // Tailwind flattens nested keys with "-", so md.light-x and md.light.x become the same class.
+  for (const name in lightColors) {
+    if (name === 'light' || name === 'dark') {
+      throw new Error(`Color "${name}" conflicts with the md.${name} group.`)
+    }
+    if (name === 'DEFAULT') {
+      throw new Error('Color "DEFAULT" would become the bare md- class.')
+    }
+    const shadowed = name.match(/^(?:light|dark)-(.+)$/)?.[1]
+    if (shadowed && shadowed in lightColors) {
+      throw new Error(
+        `Color "${name}" conflicts with the class name of "${name.replace('-', '.')}".`,
+      )
+    }
   }
 
-  for (const key in m3Theme.palettes) {
-    tones.forEach((tone) => {
-      ref[`--md-ref-palette-${kebab(key)}${tone}`] = hexFromArgb(m3Theme.palettes[key].tone(tone))
-    })
+  const lightVariables: Record<string, string> = {}
+  const darkVariables: Record<string, string> = {}
+  const semantic: Record<string, string> = {}
+
+  for (const [kind, prefix] of [
+    ['roles', '--md-sys-color-'],
+    ['palettes', '--md-ref-palette-'],
+  ] as const) {
+    for (const name in light[kind]) {
+      lightVariables[prefix + name] = light[kind][name]
+      if (dark[kind][name] !== light[kind][name]) {
+        darkVariables[prefix + name] = dark[kind][name]
+      }
+      semantic[name] = `var(${prefix + name})`
+    }
   }
 
-  return { light, dark, ref }
+  return {
+    theme: { md: { ...semantic, light: lightColors, dark: darkColors } },
+    lightVariables,
+    darkVariables,
+  }
 }

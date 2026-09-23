@@ -22,9 +22,7 @@ module.exports = defineConfig([
     plugins: [
       nodeResolve(),
       commonjs(),
-      swc({
-        minify: true,
-      }),
+      swc(),
     ],
   },
   {
